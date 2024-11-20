@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .continue-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .success-message {
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Database Dashboard</h1>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+        
+        <p class="success-message">You are successfully connected to the database</p>
+        
+        <div class="card">
+            <h2>Database Information</h2>
+            <div class="status">
+                Connection Status: <span class="status-badge">Connected</span>
+            </div>
+            <div style="margin-top: 10px;">
+                {% if version %}
+                    Database Version: {{ version }}
+                {% endif %}
+            </div>
+        </div>
+        <p>Connected to database version: {{ db_version }}</p>
+        <a href="{{ url_for('home') }}">Continue to Homepage</a>
+    </div>
+</body>
+</html>
