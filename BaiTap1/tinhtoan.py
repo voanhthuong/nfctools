@@ -1,41 +1,81 @@
-import tkinter as ttk
-from tkinter import messagebox
-
-def add_numbers():
-    try:
-        num1 = float(entry1.get())
-        num2 = float(entry2.get())
-        result = num1 + num2
-        result_entry.delete(0, ttk.END)  # Xóa nội dung cũ của ô kết quả
-        result_entry.insert(0, str(result))  # Hiển thị kết quả trong ô kết quả
-    except ValueError:
-        messagebox.showerror("Lỗi", "Vui lòng nhập số hợp lệ!")
+from tkinter import *
 
 # Tạo cửa sổ chính
-window = ttk.Tk()
-window.title("Máy tính cộng đơn giản")
+win = Tk()
+win.geometry("312x324")
+win.resizable(0, 0)
+win.title("Máy Tính")
 
-# Nhãn và ô nhập cho số thứ nhất
-label1 = ttk.Label(window, text="Số thứ nhất:")
-label1.pack()
-entry1 = ttk.Entry(window)
-entry1.pack()
+# Khởi tạo biến toàn cục cho biểu thức
+bieu_thuc = ""
 
-# Nhãn và ô nhập cho số thứ hai
-label2 = ttk.Label(window, text="Số thứ hai:")
-label2.pack()
-entry2 = ttk.Entry(window)
-entry2.pack()
+# Các hàm
+def btn_click(item):
+    global bieu_thuc
+    bieu_thuc += str(item)
+    input_text.set(bieu_thuc)
 
-# Nút để tính phép cộng
-button_add = ttk.Button(window, text="Cộng", command=add_numbers)
-button_add.pack()
+def xoa():  # Hàm để xóa trường nhập liệu
+    global bieu_thuc
+    bieu_thuc = ""
+    input_text.set("")
 
-# Nhãn và ô trống để hiển thị kết quả
-label_result = ttk.Label(window, text="Kết quả:")
-label_result.pack()
-result_entry = ttk.Entry(window)
-result_entry.pack()
+def bang():  # Hàm để tính toán biểu thức hiện tại
+    global bieu_thuc
+    try:
+        ket_qua = str(eval(bieu_thuc))
+        input_text.set(ket_qua)
+        bieu_thuc = ""
+    except:
+        input_text.set("Lỗi!")
+        bieu_thuc = ""
 
-# Chạy vòng lặp chính của giao diện
-window.mainloop()
+# Khởi tạo trường nhập liệu
+input_text = StringVar()
+khung_nhap = Frame(win, width=312, height=50, bd=0, highlightbackground="black", highlightcolor="black", highlightthickness=2)
+khung_nhap.pack(side=TOP)
+
+# Đặt màu nền của ô nhập liệu thành màu trắng
+truong_nhap = Entry(khung_nhap, font=('arial', 18, 'bold'), textvariable=input_text, width=50, bg="#ffffff", fg="#000000", bd=0, justify=RIGHT)
+truong_nhap.grid(row=0, column=0)
+truong_nhap.pack(ipady=10)
+
+# Tạo khung cho các nút bấm
+khung_nut = Frame(win, width=312, height=272.5, bg="#F0F0F0")
+khung_nut.pack()
+
+# Đặt màu sắc cho các nút
+mau_nut_so = "#9CBA7F"  # Màu xanh lá nhạt cho các nút số
+mau_nut_phep_toan = "#FFB84D"  # Màu vàng nhạt cho các nút phép toán
+mau_nut_chuc_nang = "#F26B38"  # Màu cam nhạt cho nút chức năng
+mau_nut_bang = "#66BB6A"  # Màu xanh lá cho nút "=" (bằng)
+
+# Dòng đầu tiên
+Button(khung_nut, text="C", fg="white", width=32, height=3, bd=0, bg=mau_nut_chuc_nang, cursor="hand2", command=xoa).grid(row=0, column=0, columnspan=3, padx=1, pady=1)
+Button(khung_nut, text="/", fg="white", width=10, height=3, bd=0, bg=mau_nut_phep_toan, cursor="hand2", command=lambda: btn_click("/")).grid(row=0, column=3, padx=1, pady=1)
+
+# Dòng thứ hai
+Button(khung_nut, text="7", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(7)).grid(row=1, column=0, padx=1, pady=1)
+Button(khung_nut, text="8", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(8)).grid(row=1, column=1, padx=1, pady=1)
+Button(khung_nut, text="9", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(9)).grid(row=1, column=2, padx=1, pady=1)
+Button(khung_nut, text="*", fg="white", width=10, height=3, bd=0, bg=mau_nut_phep_toan, cursor="hand2", command=lambda: btn_click("*")).grid(row=1, column=3, padx=1, pady=1)
+
+# Dòng thứ ba
+Button(khung_nut, text="4", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(4)).grid(row=2, column=0, padx=1, pady=1)
+Button(khung_nut, text="5", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(5)).grid(row=2, column=1, padx=1, pady=1)
+Button(khung_nut, text="6", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(6)).grid(row=2, column=2, padx=1, pady=1)
+Button(khung_nut, text="-", fg="white", width=10, height=3, bd=0, bg=mau_nut_phep_toan, cursor="hand2", command=lambda: btn_click("-")).grid(row=2, column=3, padx=1, pady=1)
+
+# Dòng thứ tư
+Button(khung_nut, text="1", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(1)).grid(row=3, column=0, padx=1, pady=1)
+Button(khung_nut, text="2", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(2)).grid(row=3, column=1, padx=1, pady=1)
+Button(khung_nut, text="3", fg="white", width=10, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(3)).grid(row=3, column=2, padx=1, pady=1)
+Button(khung_nut, text="+", fg="white", width=10, height=3, bd=0, bg=mau_nut_phep_toan, cursor="hand2", command=lambda: btn_click("+")).grid(row=3, column=3, padx=1, pady=1)
+
+# Dòng cuối cùng
+Button(khung_nut, text="0", fg="white", width=21, height=3, bd=0, bg=mau_nut_so, cursor="hand2", command=lambda: btn_click(0)).grid(row=4, column=0, columnspan=2, padx=1, pady=1)
+Button(khung_nut, text=".", fg="white", width=10, height=3, bd=0, bg=mau_nut_phep_toan, cursor="hand2", command=lambda: btn_click(".")).grid(row=4, column=2, padx=1, pady=1)
+Button(khung_nut, text="=", fg="white", width=10, height=3, bd=0, bg=mau_nut_bang, cursor="hand2", command=bang).grid(row=4, column=3, padx=1, pady=1)
+
+# Vòng lặp chính để hiển thị cửa sổ
+win.mainloop()
