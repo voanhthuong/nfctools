@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #333;
+            padding: 1rem;
+            color: white;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        .nav-links a:hover {
+            background-color: #555;
+            border-radius: 4px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .database-info {
+            background-color: #e9ecef;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .database-info h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <nav class="nav-links">
+                <a href="{{ url_for('home') }}">Trang Chủ</a>
+
+                <a href="{{ url_for('database') }}" class="database">Quản Lý Database</a>
+                <a href="#">Báo Cáo</a>
+                <a href="#">Cài Đặt</a>
+            </nav>
+            <div class="user-info">
+                <a href="{{ url_for('login') }}" class="login">Đăng Nhập</a>
+                <a href="{{ url_for('register') }}" class="register">Đăng ký</a>
+                <span>Xin chào, {{ username }}</span>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Đăng Xuất</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="welcome-section">
+            <h1>Chào mừng đến với Hệ thống Quản lý Database</h1>
+            <p>Bạn đã kết nối thành công với database. Hãy bắt đầu quản lý dữ liệu của bạn.</p>
+        </section>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>Thông Tin Kết Nối</h3>
+                <p>Database: {{ session['db_credentials']['database'] }}</p>
+                <p>Host: {{ session['db_credentials']['host'] }}</p>
+                <p>Version: {{ session['db_version'] }}</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Thao Tác Nhanh</h3>
+                <ul>
+                    <li>Xem cấu trúc database</li>
+                    <li>Tạo bảng mới</li>
+                    <li>Quản lý người dùng</li>
+                    <li>Sao lưu dữ liệu</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3>Trợ Giúp</h3>
+                <ul>
+                    <li>Hướng dẫn sử dụng</li>
+                    <li>FAQ</li>
+                    <li>Liên hệ hỗ trợ</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
