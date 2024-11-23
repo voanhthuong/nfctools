@@ -14,11 +14,15 @@
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
+            background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+                        url('https://uploads.nguoidothi.net.vn/content/e6ec123c-77f5-4306-8a86-4085f6c0cb26.jpg') 
+                        no-repeat center center fixed;
+            background-size: cover;
         }
 
         /* Header Styles */
         .header {
-            background-color: #333;
+            background-color: rgba(51, 51, 51, 0.8);
             padding: 1rem;
             color: white;
         }
@@ -69,7 +73,9 @@
         .main-content {
             max-width: 1200px;
             margin: 2rem auto;
-            padding: 0 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
         }
 
         .welcome-section {
@@ -94,7 +100,7 @@
             background-color: #f8f9fa;
             padding: 1.5rem;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .feature-card h3 {
@@ -124,7 +130,7 @@
         <div class="nav-container">
             <nav class="nav-links">
                 <a href="{{ url_for('home') }}">Trang Chủ</a>
-                <a href="#">Quản Lý Database</a>
+                <a href="{{ url_for('database') }}" class="database">Quản Lý Database</a>
                 <a href="#">Báo Cáo</a>
                 <a href="#">Cài Đặt</a>
             </nav>
