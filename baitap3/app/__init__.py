@@ -20,7 +20,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Thay đổi secret key này
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:liemlam159@localhost:5432/my_database'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/baitap2'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
