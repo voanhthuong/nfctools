@@ -112,6 +112,7 @@ from app import app, db
 from flask import flash, render_template, request, redirect, url_for, session
 import psycopg2
 from functools import wraps
+from psycopg2 import sql
 
 from app.forms import RegistrationForm
 from app.models import User
@@ -227,6 +228,80 @@ def home():
     if 'logged_in' in session and session['logged_in']:
         return render_template('home.html', username=session['db_credentials']['user'])
     return redirect(url_for('connect'))
+
+
+#Connect---
+db_config = {
+    'dbname': 'baitap2',
+    'user': 'postgres',
+    'password': '171104',
+    'host': 'localhost',
+    'port': '5432'
+}
+
+def connect():
+    """Kết nối với cơ sở dữ liệu PostgreSQL."""
+    return psycopg2.connect(**db_config)
+
+
+@app.route('/quan-ly-database')
+def database():
+    """Trang chủ, hiển thị dữ liệu từ bảng."""
+    try:
+        conn = connect()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM danhsachtruyen")
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return render_template('database.html', rows=rows)
+    except Exception as e:
+        flash(f"Error loading data: {e}", 'error')
+        return render_template('database.html', rows=[])
+
+
+@app.route('/insert', methods=['POST'])
+def insert_data():
+    """Chèn dữ liệu vào cơ sở dữ liệu."""
+    try:
+        tentruyen = request.form['tentruyen']
+        taptruyen = request.form['taptruyen']
+        sotrang = request.form['sotrang']
+        theloai = request.form['theloai']
+        
+        conn = connect()
+        cur = conn.cursor()
+        query = sql.SQL("INSERT INTO danhsachtruyen (tentruyen, taptruyen, sotrang, theloai) VALUES (%s, %s, %s, %s)")
+        cur.execute(query, (tentruyen, taptruyen, sotrang, theloai))
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+        flash('Data inserted successfully!', 'success')
+        return redirect(url_for('database'))
+    except Exception as e:
+        flash(f"Error inserting data: {e}", 'error')
+        return redirect(url_for('database'))
+
+
+@app.route('/search', methods=['POST'])
+def search_data():
+    """Tìm kiếm dữ liệu trong bảng."""
+    search_keyword = request.form['search_keyword']
+    try:
+        conn = connect()
+        cur = conn.cursor()
+        query = sql.SQL("SELECT * FROM danhsachtruyen WHERE tentruyen ILIKE %s OR taptruyen ILIKE %s")
+        cur.execute(query, (f"%{search_keyword}%", f"%{search_keyword}%"))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return render_template('database.html', rows=rows)
+    except Exception as e:
+        flash(f"Error searching data: {e}", 'error')
+        return redirect(url_for('database'))
+
+
 
 @app.route('/logout')
 def logout():
